@@ -63,6 +63,18 @@ RUN wget --no-check-certificate --no-cookies --header="Cookie: oraclelicense=acc
   && rm -rf /tmp/jdk1.6.0_45
 
 #========================================
+# 添加普通用户
+#========================================
+RUN useradd pinpoint \
+         --shell /bin/bash  \
+         --create-home \
+  && usermod -a -G sudo pinpoint \
+  && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
+  && echo 'pinpoint:pinpoint' | chpasswd
+
+USER pinpoint
+
+#========================================
 # Tomcat config
 # http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/v8.0.51/bin/apache-tomcat-8.0.51.tar.gz
 #========================================
@@ -120,16 +132,6 @@ RUN wget --no-verbose -O /tmp/pinpoint-collector-1.7.3.war https://github.com/na
 COPY hbase-create.hbase \
   run.sh \
   /opt/bin/
-
-#========================================
-# 添加普通用户
-#========================================
-RUN useradd pinpoint \
-         --shell /bin/bash  \
-         --create-home \
-  && usermod -a -G sudo pinpoint \
-  && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
-  && echo 'pinpoint:pinpoint' | chpasswd
 
 #========================================
 # 开放端口组，ssh(22)，hbase(16010)，pp-col(18080)，pp-web(28080)

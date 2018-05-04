@@ -57,18 +57,46 @@ RUN wget --no-check-certificate --no-cookies --header="Cookie: oraclelicense=acc
 # Tomcat config
 # http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/v8.0.51/bin/apache-tomcat-8.0.51.tar.gz
 #========================================
-RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/v8.0.51/bin/apache-tomcat-8.0.51.tar.gz \
+RUN wget --no-verbose -O /tmp/apache-tomcat-8.0.51.tar.gz http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/v8.0.51/bin/apache-tomcat-8.0.51.tar.gz \
  && mkdir -p /www/tomcat/ \
- && tar
+ && tar -xzvf /tmp/apache-tomcat-8.0.51.tar.gz \
+ && cp -rf /tmp/apache-tomcat-8.0.51 /www/tomcat/pp-col-tomcat \
+ && cp -rf /tmp/apache-tomcat-8.0.51 /www/tomcat/pp-web-tomcat \
+ && sed -i 's/port="8005"/port="18005"/g' /www/tomcat/pp-col-tomcat/conf/server.xml \
+ && sed -i 's/port="8080"/port="18080"/g' /www/tomcat/pp-col-tomcat/conf/server.xml \
+ && sed -i 's/port="8443"/port="18443"/g' /www/tomcat/pp-col-tomcat/conf/server.xml \
+ && sed -i 's/port="8009"/port="18009"/g' /www/tomcat/pp-col-tomcat/conf/server.xml \
+ && sed -i 's/redirectPort="8443"/redirectPort="18443"/g' /www/tomcat/pp-col-tomcat/conf/server.xml \
+ && sed -i 's/port="8005"/port="28005"/g' /www/tomcat/pp-web-tomcat/conf/server.xml \
+ && sed -i 's/port="8080"/port="28080"/g' /www/tomcat/pp-web-tomcat/conf/server.xml \
+ && sed -i 's/port="8443"/port="28443"/g' /www/tomcat/pp-web-tomcat/conf/server.xml \
+ && sed -i 's/port="8009"/port="28009"/g' /www/tomcat/pp-web-tomcat/conf/server.xml \
+ && sed -i 's/redirectPort="8443"/redirectPort="28443"/g' /www/tomcat/pp-web-tomcat/conf/server.xml \
+ && rm -rf /tmp/apache-tomcat-8.0.51.tar.gz \
+ && rm -rf /tmp/apache-tomcat-8.0.51
+
+#========================================
+# Hbase config
+# http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz
+#========================================
+RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz \
+  && tar -xzvf /tmp/hbase-1.2.6-bin.tar.gz \
+  && cp -rf hbase-1.2.6 /www/hbase \
+  && mkdir -p /www/data \
+  && sed -i 's|# export JAVA_HOME=/usr/java/jdk1.6.0/|export JAVA_HOME=/usr/local/java/jdk1.8.0_161|g' /www/hbase/conf/hbase-env.sh \
+  && sed -i 's|</configuration>|    <property>\r\n        <name>hbase.rootdir</name>\r\n        <value>file:///data/hbase</value>\r\n    </property>\r\n</configuration>|g' /www/hbase/conf/hbase-site.xml \
+  && sed -i 's|export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|#export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|g' /www/hbase/conf/hbase-env.sh \
+  && sed -i 's|export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|#export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|g' /www/hbase/conf/hbase-env.sh \
+  && rm -rf /tmp/hbase-1.2.6-bin.tar.gz \
+  && rm -rf /tmp/hbase-1.2.6
+
 
 #========================================
 # pinpoint config
 # https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-web-1.7.3.war
 # https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war
-# http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz
 #========================================
-RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz \
-  && wget --no-verbose -O /tmp/pinpoint-collector-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war \
+RUN wget --no-verbose -O /tmp/pinpoint-collector-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war \
   && wget --no-verbose -O /tmp/pinpoint-web-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-web-1.7.3.war \
   && 
 

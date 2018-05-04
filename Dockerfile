@@ -29,14 +29,48 @@ RUN apt-get -qqy update \
 #===================
 # 设置Timezone
 #===================
-ENV TZ "UTC"
+ENV TZ "Asia/Shanghai"
 RUN echo "${TZ}" > /etc/timezone \
   && dpkg-reconfigure --frontend noninteractive tzdata
 
 #========================================
 # JDK config
 #========================================
-RUN wget --no-check-certificate --no-cookies --header="Cookie: oraclelicense=accept-securebackup-cookie" --no-verbose -O /tmp/jdk-8u171-linux-x64.tar.gz  http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/jdk-8u171-linux-x64.tar.gz
+RUN wget --no-check-certificate --no-cookies --header="Cookie: oraclelicense=accept-securebackup-cookie" --no-verbose -O /tmp/jdk-8u171-linux-x64.tar.gz  http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/jdk-8u171-linux-x64.tar.gz \
+  && wget --no-check-certificate --no-cookies --header="Cookie: oraclelicense=accept-securebackup-cookie" --no-verbose -O /tmp/jdk-7u80-linux-x64.tar.gz http://download.oracle.com/otn/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz \
+  && wget --no-check-certificate --no-cookies --header="Cookie: oraclelicense=accept-securebackup-cookie" --no-verbose -O /tmp/jdk-6u45-linux-x64.bin http://download.oracle.com/otn/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin \
+  && tar -xzvf /tmp/jdk-8u171-linux-x64.tar.gz /usr/local/java/ \
+  && tar -xzvf /tmp/jdk-7u80-linux-x64.tar.gz /usr/local/java \
+  && chmod +x /tmp/jdk-6u45-linux-x64.bin \
+  && /tmp/jdk-6u45-linux-x64.bin \
+  && cp -r /tmp/jdk1.6.0_45 /usr/local/java \
+  && echo "JAVA_6_HOME=\"/usr/local/java/jdk1.6.0_45\"" >> /etc/profile \
+  && echo "JAVA_7_HOME=\"/usr/local/java/jdk1.7.0_80\"" >> /etc/profile \
+  && echo "JAVA_HOME=\"/usr/local/java/jdk1.8.0_171\"" >> /etc/profile \
+  && echo "export JAVA_HOME" >> /etc/profile \
+  && echo "export PATH=\"$PATH:$JAVA_HOME/bin\"" >> /etc/profile \
+  && rm -rf /tmp/jdk-8u171-linux-x64.tar.gz \
+  && rm -rf /tmp/jdk-7u80-linux-x64.tar.gz \
+  && rm -rf /tmp/jdk1.6.0_45
+
+#========================================
+# Tomcat config
+# http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/v8.0.51/bin/apache-tomcat-8.0.51.tar.gz
+#========================================
+RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/v8.0.51/bin/apache-tomcat-8.0.51.tar.gz \
+ && mkdir -p /www/tomcat/ \
+ && tar
+
+#========================================
+# pinpoint config
+# https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-web-1.7.3.war
+# https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war
+# http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz
+#========================================
+RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz \
+  && wget --no-verbose -O /tmp/pinpoint-collector-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war \
+  && wget --no-verbose -O /tmp/pinpoint-web-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-web-1.7.3.war \
+  && 
 
 
 #========================================

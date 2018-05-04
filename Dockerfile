@@ -109,6 +109,20 @@ RUN wget --no-verbose -O /tmp/pinpoint-collector-1.7.3.war https://github.com/na
   && rm -rf /tmp/pinpoint-collector-1.7.3.war \
   && rm -rf /tmp/pinpoint-web-1.7.3.war
 
+#========================================
+# copy scripts
+#========================================
+COPY hbase-create.hbase \
+  run.sh \
+  /opt/bin/
+
+#========================================
+# 初始化hbase
+#========================================
+RUN chmod +x /opt/bin/hbase-create.hbase \
+  && sleep 1 \
+  && /opt/bin/hbase-create.hbase \
+  && chmod +x /opt/bin/run.sh \
 
 #========================================
 # 添加普通用户
@@ -126,7 +140,7 @@ RUN useradd pinpoint \
 EXPOSE 22 16010 18080 28080 9994 9995/udp 9996/udp
 
 # 运行脚本，启动sshd服务
-CMD ["/www/script/run.sh"]
+CMD ["/opt/bin/run.sh"]
 
 
 # 固化环境变量

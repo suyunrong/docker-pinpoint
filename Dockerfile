@@ -65,17 +65,17 @@ RUN wget --no-check-certificate --no-cookies --header="Cookie: oraclelicense=acc
 #========================================
 # add user
 #========================================
-RUN useradd pinpoint \
-         --shell /bin/bash  \
-         --create-home \
-  && usermod -a -G sudo pinpoint \
-  && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
-  && echo 'pinpoint:pinpoint' | chpasswd
+#RUN useradd pinpoint \
+#         --shell /bin/bash  \
+#         --create-home \
+#  && usermod -a -G sudo pinpoint \
+#  && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
+#  && echo 'pinpoint:pinpoint' | chpasswd
 
 #========================================
 # change user
 #========================================
-USER pinpoint
+#USER pinpoint
 
 #========================================
 # Tomcat config

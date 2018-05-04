@@ -28,10 +28,14 @@ RUN apt-get -qqy update \
 
 #===================
 # 设置Timezone
+# && sed -i 's|ZONE="Etc/UTC"|ZONE="Asia/Shanghai"|g' /etc/sysconfig/clock \
+# && echo 'Asia/Shanghai' >> /etc/timezone \
+# && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 #===================
 ENV TZ "Asia/Shanghai"
 RUN echo "${TZ}" > /etc/timezone \
   && dpkg-reconfigure --frontend noninteractive tzdata
+
 
 #========================================
 # JDK config
@@ -62,6 +66,8 @@ RUN wget --no-verbose -O /tmp/apache-tomcat-8.0.51.tar.gz http://mirrors.hust.ed
  && tar -xzvf /tmp/apache-tomcat-8.0.51.tar.gz \
  && cp -rf /tmp/apache-tomcat-8.0.51 /www/tomcat/pp-col-tomcat \
  && cp -rf /tmp/apache-tomcat-8.0.51 /www/tomcat/pp-web-tomcat \
+ && rm -rf /www/tomcat/pp-col-tomcat/webapps/* \
+ && rm -rf /www/tomcat/pp-web-tomcat/webapps/* \
  && sed -i 's/port="8005"/port="18005"/g' /www/tomcat/pp-col-tomcat/conf/server.xml \
  && sed -i 's/port="8080"/port="18080"/g' /www/tomcat/pp-col-tomcat/conf/server.xml \
  && sed -i 's/port="8443"/port="18443"/g' /www/tomcat/pp-col-tomcat/conf/server.xml \
@@ -98,7 +104,10 @@ RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/d
 #========================================
 RUN wget --no-verbose -O /tmp/pinpoint-collector-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war \
   && wget --no-verbose -O /tmp/pinpoint-web-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-web-1.7.3.war \
-  && 
+  && unzip /tmp/pinpoint-collector-1.7.3.war -d /www/tomcat/pp-col-tomcat/webapps/ROOT \
+  && unzip /tmp/pinpoint-web-1.7.3.war -d /www/tomcat/pp-web-tomcat/webapps/ROOT \
+  && rm -rf /tmp/pinpoint-collector-1.7.3.war \
+  && rm -rf /tmp/pinpoint-web-1.7.3.war
 
 
 #========================================
@@ -111,19 +120,14 @@ RUN useradd pinpoint \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
   && echo 'pinpoint:pinpoint' | chpasswd
 
+#========================================
+# 开放端口组，ssh(22)，hbase(16010)，pp-col(18080)，pp-web(28080)
+#========================================
+EXPOSE 22 16010 18080 28080 9994 9995/udp 9996/udp
 
+# 运行脚本，启动sshd服务
+CMD ["/www/script/run.sh"]
 
-# 拷贝必要文件
-COPY jdk/jdk1.6.0_45 /usr/local/java/jdk1.6.0_45
-COPY jdk/jdk1.7.0_80 /usr/local/java/jdk1.7.0_80
-COPY jdk/jdk1.8.0_161 /usr/local/java/jdk1.8.0_161
-COPY hbase/hbase /www/hbase
-COPY hbase/hbase-create.hbase /www/
-COPY pinpoint/pinpoint-collector-1.7.1.war /www/war/
-COPY pinpoint/pinpoint-web-1.7.1.war /www/war/
-COPY tomcat/pp-col-tomcat /www/tomcat/pp-col-tomcat
-COPY tomcat/pp-web-tomcat /www/tomcat/pp-web-tomcat
-COPY script/run.sh /www/script/
 
 # 固化环境变量
 ENV JAVA_HOME /usr/local/java/jdk1.8.0_161

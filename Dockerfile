@@ -33,8 +33,8 @@ RUN apt-get -qqy update \
   && apt-get -qqy --purge remove openjdk-8-jre-headless \
   && dpkg -i /tmp/tzdata_2017c-0ubuntu0.14.04_all.deb \
   && dpkg -i /tmp/tzdata-java_2017c-0ubuntu0.14.04_all.deb \
-  && dpkg -i /tmp/openjdk-6-jre-lib_6b41-1.13.13-0ubuntu0.14.04.1_all.deb \
   && dpkg -i /tmp/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb \
+  && dpkg -i /tmp/openjdk-6-jre-lib_6b41-1.13.13-0ubuntu0.14.04.1_all.deb \
   && dpkg -i /tmp/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb \
   && rm -rf /tmp/tzdata_2017c-0ubuntu0.14.04_all.deb \
   && rm -rf /tmp/tzdata-java_2017c-0ubuntu0.14.04_all.deb \

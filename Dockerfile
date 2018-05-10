@@ -66,8 +66,7 @@ ARG JDK7="java-7-openjdk-amd64"
 ARG JDK8="java-8-openjdk-amd64"
 RUN wget --no-verbose -O /tmp/openjdk-6_6b41-1.13.13.orig.tar.xz https://launchpadlibrarian.net/306326389/openjdk-6_6b41-1.13.13.orig.tar.xz \
  && wget --no-verbose -O /tmp/openjdk-7_7u171-2.6.13.orig.tar.gz https://launchpadlibrarian.net/359679311/openjdk-7_7u171-2.6.13.orig.tar.gz \
- && wget --no-verbose -O /tmp/openjdk-8_8u171-b11.orig.tar.xz https://launchpadlibrarian.net/367675104/openjdk-8_8u171-b11.orig.tar.xz \
-
+ && wget --no-verbose -O /tmp/openjdk-8_8u171-b11.orig.tar.xz https://launchpadlibrarian.net/367675104/openjdk-8_8u171-b11.orig.tar.xz
 
 
 #========================================

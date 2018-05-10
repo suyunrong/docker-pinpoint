@@ -12,20 +12,6 @@ RUN  echo "deb http://archive.ubuntu.com/ubuntu xenial main universe\n" > /etc/a
 ENV DEBIAN_FRONTEND=noninteractive \
     DEBCONF_NONINTERACTIVE_SEEN=true
 
-#========================
-# 安装基础软件包
-# 包括 jdk wget unzip ca-certificates tzdata...
-#========================
-RUN apt-get -qqy update \
-  && apt-get -qqy --no-install-recommends install \
-    bzip2 \
-    ca-certificates \
-    tzdata \
-    sudo \
-    unzip \
-    wget \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
 #===================
 # 设置Timezone
 # && sed -i 's|ZONE="Etc/UTC"|ZONE="Asia/Shanghai"|g' /etc/sysconfig/clock \
@@ -35,6 +21,30 @@ RUN apt-get -qqy update \
 ENV TZ "Asia/Shanghai"
 RUN echo "${TZ}" > /etc/timezone \
   && dpkg-reconfigure --frontend noninteractive tzdata
+
+#========================
+# 安装基础软件包
+# 包括 jdk wget unzip ca-certificates tzdata...
+#========================
+RUN apt-get -qqy update \
+  && apt-get -qqy --no-install-recommends install \
+    bzip2 \
+    ca-certificates \
+    openjdk-8-jre-headless \
+    tzdata \
+    sudo \
+    unzip \
+    wget \
+  && wget --no-verbose -O /tmp/openjdk-6-jre-lib_6b41-1.13.13-0ubuntu0.14.04.1_all.deb http://launchpadlibrarian.net/306413075/openjdk-6-jre-lib_6b41-1.13.13-0ubuntu0.14.04.1_all.deb \
+  && wget --no-verbose -O /tmp/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb http://launchpadlibrarian.net/172929382/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb \
+  && wget --no-verbose -O /tmp/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb http://launchpadlibrarian.net/172237301/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb \
+  && dpkg -i /tmp/openjdk-6-jre-lib_6b41-1.13.13-0ubuntu0.14.04.1_all.deb \
+  && dpkg -i /tmp/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb \
+  && dpkg -i /tmp/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb \
+  && rm -rf /tmp/openjdk-6-jre-lib_6b41-1.13.13-0ubuntu0.14.04.1_all.deb \
+  && rm -rf /tmp/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb \
+  && rm -rf /tmp/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb \
+  && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 
 #========================================
@@ -61,12 +71,11 @@ RUN echo "${TZ}" > /etc/timezone \
 #  && rm -rf /tmp/jdk-8u171-linux-x64.tar.gz \
 #  && rm -rf /tmp/jdk-7u80-linux-x64.tar.gz \
 #  && rm -rf /tmp/jdk1.6.0_45
-ARG JDK6="java-6-openjdk-amd64"
-ARG JDK7="java-7-openjdk-amd64"
-ARG JDK8="java-8-openjdk-amd64"
-RUN wget --no-verbose -O /tmp/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb http://launchpadlibrarian.net/172929382/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb \
- && wget --no-verbose -O /tmp/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb http://launchpadlibrarian.net/172237301/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb \
- && wget --no-verbose -O /tmp/openjdk-8-jre-headless_8u162-b12-1_amd64.deb http://launchpadlibrarian.net/360831271/openjdk-8-jre-headless_8u162-b12-1_amd64.deb
+#ARG JDK6="java-6-openjdk-amd64"
+#RG JDK7="java-7-openjdk-amd64"
+#ARG JDK8="java-8-openjdk-amd64"
+#RUN wget --no-verbose -O /tmp/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb http://launchpadlibrarian.net/172929382/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb \
+# && wget --no-verbose -O /tmp/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb http://launchpadlibrarian.net/172237301/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb
 
 
 #========================================

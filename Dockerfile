@@ -26,8 +26,8 @@ RUN apt-get -qqy update \
     unzip \
     wget \
     libnss3-1d \
-    tzdata-java \
   && wget --no-verbose -O /tmp/openjdk-6-jre-lib_6b41-1.13.13-0ubuntu0.14.04.1_all.deb http://launchpadlibrarian.net/306413075/openjdk-6-jre-lib_6b41-1.13.13-0ubuntu0.14.04.1_all.deb \
+  && wget --no-verbose -O /tmp/tzdata-java_2017c-0ubuntu0.14.04_all.deb http://launchpadlibrarian.net/345153446/tzdata-java_2017c-0ubuntu0.14.04_all.deb \
   && wget --no-verbose -O /tmp/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb http://launchpadlibrarian.net/172929382/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb \
   && wget --no-verbose -O /tmp/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb http://launchpadlibrarian.net/172237301/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb \
   #&& dpkg -i /tmp/openjdk-6-jre-lib_6b41-1.13.13-0ubuntu0.14.04.1_all.deb \

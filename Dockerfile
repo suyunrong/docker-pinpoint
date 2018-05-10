@@ -64,9 +64,9 @@ RUN echo "${TZ}" > /etc/timezone \
 ARG JDK6="java-6-openjdk-amd64"
 ARG JDK7="java-7-openjdk-amd64"
 ARG JDK8="java-8-openjdk-amd64"
-RUN wget --no-verbose -O /tmp/openjdk-6_6b41-1.13.13.orig.tar.xz https://launchpadlibrarian.net/306326389/openjdk-6_6b41-1.13.13.orig.tar.xz \
- && wget --no-verbose -O /tmp/openjdk-7_7u171-2.6.13.orig.tar.gz https://launchpadlibrarian.net/359679311/openjdk-7_7u171-2.6.13.orig.tar.gz \
- && wget --no-verbose -O /tmp/openjdk-8_8u171-b11.orig.tar.xz https://launchpadlibrarian.net/367675104/openjdk-8_8u171-b11.orig.tar.xz
+RUN wget --no-verbose -O /tmp/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb http://launchpadlibrarian.net/172929382/openjdk-6-jre-headless_6b31-1.13.3-1ubuntu1_amd64.deb \
+ && wget --no-verbose -O /tmp/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb http://launchpadlibrarian.net/172237301/openjdk-7-jre-headless_7u51-2.4.6-1ubuntu4_amd64.deb \
+ && wget --no-verbose -O /tmp/openjdk-8-jre-headless_8u162-b12-1_amd64.deb http://launchpadlibrarian.net/360831271/openjdk-8-jre-headless_8u162-b12-1_amd64.deb
 
 
 #========================================

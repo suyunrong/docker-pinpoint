@@ -30,15 +30,13 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 #=======================================
 RUN apk upgrade -U \
   && apk add \
-    #openjdk7 \
-    openjdk8 \
+    openjdk8-jre \
   && rm -rf /tmp/* \
   && rm -rf /var/cache/apk/*
 
 #=======================================
 # Config java_home
 #=======================================
-#RUN echo "JAVA_7_HOME=\"/usr/lib/jvm/java-1.7-openjdk\"" >> /etc/profile \
 RUN echo "JAVA_HOME=\"/usr/lib/jvm/java-1.8-openjdk\"" >> /etc/profile \
   && echo "export JAVA_HOME" >> /etc/profile \
   && echo "export PATH=\"$PATH:$JAVA_HOME/bin:$JAVA_HOME/jre/bin\"" >> /etc/profile

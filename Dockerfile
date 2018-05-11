@@ -49,7 +49,7 @@ RUN echo "JAVA_7_HOME=\"/usr/lib/jvm/java-1.7-openjdk\"" >> /etc/profile \
 #========================================
 ENV VERSION "v8.0.52"
 ENV TOMCAT_VERSION "apache-tomcat-8.0.52"
-RUN curl -o /tmp/$TOMCAT_VERSION http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/$VERSION/bin/$TOMCAT_VERSION.tar.gz \
+RUN curl -o /tmp/$TOMCAT_VERSION.tar.gz http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/$VERSION/bin/$TOMCAT_VERSION.tar.gz \
  && mkdir -p /www/tomcat/ \
  && tar -xzvf /tmp/$TOMCAT_VERSION.tar.gz -C /www/tomcat/ \
  && mv /www/tomcat/$TOMCAT_VERSION /www/tomcat/pp-col-tomcat \

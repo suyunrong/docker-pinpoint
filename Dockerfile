@@ -12,7 +12,7 @@ ENV LANG C.UTF-8
 RUN apk upgrade -U \
   && apk add \
     bash \
-    curl \
+    wget \
     unzip \
     tzdata \
   && rm -rf /tmp/* \
@@ -49,7 +49,7 @@ RUN echo "JAVA_7_HOME=\"/usr/lib/jvm/java-1.7-openjdk\"" >> /etc/profile \
 #========================================
 ENV VERSION "v8.0.52"
 ENV TOMCAT_VERSION "apache-tomcat-8.0.52"
-RUN curl -o /tmp/$TOMCAT_VERSION.tar.gz http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/$VERSION/bin/$TOMCAT_VERSION.tar.gz \
+RUN wget --no-verbose -O /tmp/$TOMCAT_VERSION.tar.gz http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/$VERSION/bin/$TOMCAT_VERSION.tar.gz \
  && mkdir -p /www/tomcat/ \
  && tar -xzvf /tmp/$TOMCAT_VERSION.tar.gz -C /www/tomcat/ \
  && mv /www/tomcat/$TOMCAT_VERSION /www/tomcat/pp-col-tomcat \
@@ -73,7 +73,7 @@ RUN curl -o /tmp/$TOMCAT_VERSION.tar.gz http://mirrors.hust.edu.cn/apache/tomcat
 # Hbase config
 # http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz
 #========================================
-RUN curl -o /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz \
+RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz \
   && tar -xzvf /tmp/hbase-1.2.6-bin.tar.gz -C /www/ \
   && mv /www/hbase-1.2.6 /www/hbase \
   && mkdir -p /www/data \
@@ -88,8 +88,8 @@ RUN curl -o /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/dist/hbase/1.2
 # https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-web-1.7.3.war
 # https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war
 #========================================
-RUN curl -o /tmp/pinpoint-collector-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war \
-  && curl -o /tmp/pinpoint-web-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-web-1.7.3.war \
+RUN wget --no-verbose -O /tmp/pinpoint-collector-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war \
+  && wget --no-verbose -O /tmp/pinpoint-web-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-web-1.7.3.war \
   && unzip /tmp/pinpoint-collector-1.7.3.war -d /www/tomcat/pp-col-tomcat/webapps/ROOT \
   && unzip /tmp/pinpoint-web-1.7.3.war -d /www/tomcat/pp-web-tomcat/webapps/ROOT \
   && rm -rf /tmp/pinpoint-collector-1.7.3.war \

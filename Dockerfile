@@ -30,7 +30,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 #=======================================
 RUN apk upgrade -U \
   && apk add \
-    openjdk7 \
+    #openjdk7 \
     openjdk8 \
   && rm -rf /tmp/* \
   && rm -rf /var/cache/apk/*
@@ -38,8 +38,8 @@ RUN apk upgrade -U \
 #=======================================
 # Config java_home
 #=======================================
-RUN echo "JAVA_7_HOME=\"/usr/lib/jvm/java-1.7-openjdk\"" >> /etc/profile \
-  && echo "JAVA_HOME=\"/usr/lib/jvm/java-1.8-openjdk\"" >> /etc/profile \
+#RUN echo "JAVA_7_HOME=\"/usr/lib/jvm/java-1.7-openjdk\"" >> /etc/profile \
+RUN echo "JAVA_HOME=\"/usr/lib/jvm/java-1.8-openjdk\"" >> /etc/profile \
   && echo "export JAVA_HOME" >> /etc/profile \
   && echo "export PATH=\"$PATH:$JAVA_HOME/bin:$JAVA_HOME/jre/bin\"" >> /etc/profile
 
@@ -77,7 +77,7 @@ RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/d
   && tar -xzvf /tmp/hbase-1.2.6-bin.tar.gz -C /www/ \
   && mv /www/hbase-1.2.6 /www/hbase \
   && mkdir -p /www/data \
-  && sed -i 's|# export JAVA_HOME=/usr/lib/jvm/java-1.7-openjdk/|export JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk|g' /www/hbase/conf/hbase-env.sh \
+  && sed -i 's|# export JAVA_HOME=/usr/java/jdk1.6.0/|export JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk|g' /www/hbase/conf/hbase-env.sh \
   && sed -i 's|</configuration>|    <property>\r\n        <name>hbase.rootdir</name>\r\n        <value>file:///data/hbase</value>\r\n    </property>\r\n</configuration>|g' /www/hbase/conf/hbase-site.xml \
   && sed -i 's|export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|#export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|g' /www/hbase/conf/hbase-env.sh \
   && sed -i 's|export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|#export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|g' /www/hbase/conf/hbase-env.sh \

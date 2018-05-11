@@ -30,8 +30,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 #=======================================
 RUN apk upgrade -U \
   && apk add \
-    openjdk7-jre \
-    openjdk8-jre \
+    openjdk7 \
+    openjdk8 \
   && rm -rf /tmp/* \
   && rm -rf /var/cache/apk/*
 

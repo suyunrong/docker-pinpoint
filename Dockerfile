@@ -47,9 +47,9 @@ RUN echo "JAVA_HOME=\"/usr/lib/jvm/java-1.8-openjdk\"" >> /etc/profile \
 # Tomcat config
 # http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/v8.0.51/bin/apache-tomcat-8.0.51.tar.gz
 #========================================
-ENV VERSION "v8.0.52"
-ENV TOMCAT_VERSION "apache-tomcat-8.0.52"
-RUN wget --no-verbose -O /tmp/$TOMCAT_VERSION.tar.gz http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/$VERSION/bin/$TOMCAT_VERSION.tar.gz \
+ENV VERSION "v8.5.31"
+ENV TOMCAT_VERSION "apache-tomcat-8.5.31"
+RUN wget --no-verbose -O /tmp/$TOMCAT_VERSION.tar.gz http://mirror.bit.edu.cn/apache/tomcat/tomcat-8/$VERSION/bin/$TOMCAT_VERSION.tar.gz \
  && mkdir -p /www/tomcat/ \
  && tar -xzvf /tmp/$TOMCAT_VERSION.tar.gz -C /www/tomcat/ \
  && mv /www/tomcat/$TOMCAT_VERSION /www/tomcat/pp-col-tomcat \

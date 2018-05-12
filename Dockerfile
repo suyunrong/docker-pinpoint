@@ -71,6 +71,7 @@ RUN wget --no-verbose -O /tmp/$TOMCAT_VERSION.tar.gz http://mirror.bit.edu.cn/ap
 # Hbase config
 # http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz
 #========================================
+COPY hbase-create.hbase /opt/bin/
 RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/dist/hbase/1.2.6/hbase-1.2.6-bin.tar.gz \
   && tar -xzvf /tmp/hbase-1.2.6-bin.tar.gz -C /www/ \
   && mv /www/hbase-1.2.6 /www/hbase \
@@ -99,9 +100,7 @@ RUN wget --no-verbose -O /tmp/pinpoint-collector-1.7.3.war https://github.com/na
 #========================================
 # copy scripts
 #========================================
-COPY hbase-create.hbase \
-  run.sh \
-  /opt/bin/
+COPY run.sh /opt/bin/
 
 #========================================
 # 开放端口组，ssh(22)，hbase(16010)，pp-col(18080)，pp-web(28080)

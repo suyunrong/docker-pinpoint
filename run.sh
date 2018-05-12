@@ -6,7 +6,7 @@
 sleep 5
 
 # 初始化hbase表
-/www/hbase/bin/hbase shell /opt/bin/hbase-create.hbase
+#/www/hbase/bin/hbase shell /opt/bin/hbase-create.hbase
 
 # 启动pp-col
 /www/tomcat/pp-col-tomcat/bin/startup.sh

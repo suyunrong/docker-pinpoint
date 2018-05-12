@@ -79,7 +79,10 @@ RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/d
   && sed -i 's|</configuration>|    <property>\r\n        <name>hbase.rootdir</name>\r\n        <value>file:///data/hbase</value>\r\n    </property>\r\n</configuration>|g' /www/hbase/conf/hbase-site.xml \
   && sed -i 's|export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|#export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|g' /www/hbase/conf/hbase-env.sh \
   && sed -i 's|export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|#export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"|g' /www/hbase/conf/hbase-env.sh \
-  && rm -rf /tmp/hbase-1.2.6-bin.tar.gz
+  && rm -rf /tmp/hbase-1.2.6-bin.tar.gz \
+  && /www/hbase/bin/start-hbase.sh \
+  && sleep 5 \
+  && /www/hbase/bin/hbase shell /opt/bin/hbase-create.hbase
 
 #========================================
 # pinpoint config

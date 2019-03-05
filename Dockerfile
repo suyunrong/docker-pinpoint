@@ -87,15 +87,15 @@ RUN wget --no-verbose -O /tmp/hbase-1.2.6-bin.tar.gz http://archive.apache.org/d
 
 #========================================
 # pinpoint config
-# https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-web-1.7.3.war
-# https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war
+# https://github.com/naver/pinpoint/releases/download/1.8.1/pinpoint-web-1.8.1.war
+# https://github.com/naver/pinpoint/releases/download/1.8.1/pinpoint-collector-1.8.1.war
 #========================================
-RUN wget --no-verbose -O /tmp/pinpoint-collector-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-collector-1.7.3.war \
-  && wget --no-verbose -O /tmp/pinpoint-web-1.7.3.war https://github.com/naver/pinpoint/releases/download/1.7.3/pinpoint-web-1.7.3.war \
-  && unzip /tmp/pinpoint-collector-1.7.3.war -d /www/tomcat/pp-col-tomcat/webapps/ROOT \
-  && unzip /tmp/pinpoint-web-1.7.3.war -d /www/tomcat/pp-web-tomcat/webapps/ROOT \
-  && rm -rf /tmp/pinpoint-collector-1.7.3.war \
-  && rm -rf /tmp/pinpoint-web-1.7.3.war
+RUN wget --no-verbose -O /tmp/pinpoint-collector-1.8.1.war https://github.com/naver/pinpoint/releases/download/1.8.1/pinpoint-collector-1.8.1.war \
+  && wget --no-verbose -O /tmp/pinpoint-web-1.8.1.war https://github.com/naver/pinpoint/releases/download/1.8.1/pinpoint-web-1.8.1.war \
+  && unzip /tmp/pinpoint-collector-1.8.1.war -d /www/tomcat/pp-col-tomcat/webapps/ROOT \
+  && unzip /tmp/pinpoint-web-1.8.1.war -d /www/tomcat/pp-web-tomcat/webapps/ROOT \
+  && rm -rf /tmp/pinpoint-collector-1.8.1.war \
+  && rm -rf /tmp/pinpoint-web-1.8.1.war
 
 #========================================
 # copy scripts
